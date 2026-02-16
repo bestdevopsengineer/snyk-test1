@@ -31,4 +31,4 @@ jobs:
       - name: Snyk Code test (fail on HIGH)
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk code test . --severity-threshold=high
+        run: snyk code test . --severity-threshold=medium
