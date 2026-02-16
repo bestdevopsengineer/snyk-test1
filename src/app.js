@@ -14,8 +14,14 @@ app.listen(port, () => {
 const { exec } = require('child_process');
 
 app.get('/run', (req, res) => {
-  const cmd = req.query.cmd;        // user-controlled input
-  exec(cmd, (err, stdout, stderr) => {  // 🔥 vulnerable: command injection
+  const cmd = req.query.cmd;
+
+  const allowed = ['ls', 'pwd'];
+  if (!allowed.includes(cmd)) {
+    return res.status(400).send('Invalid command');
+  }
+
+  execFile(cmd, [], (err, stdout, stderr) => {
     if (err) return res.status(500).send(stderr);
     res.send(stdout);
   });
